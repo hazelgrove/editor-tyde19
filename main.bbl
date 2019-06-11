@@ -1,0 +1,131 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{5}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[\protect\citeauthoryear{Berger, V\"{o}lter, Jensen, Dangprasert, and
+  Siegmund}{Berger et~al\mbox{.}}{2016}]%
+        {ProjEfficiency}
+\bibfield{author}{\bibinfo{person}{Thorsten Berger}, \bibinfo{person}{Markus
+  V\"{o}lter}, \bibinfo{person}{Hans~Peter Jensen}, \bibinfo{person}{Taweesap
+  Dangprasert}, {and} \bibinfo{person}{Janet Siegmund}.}
+  \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Efficiency of Projectional Editing: A Controlled
+  Experiment}. In \bibinfo{booktitle}{\emph{Proceedings of the 2016 24th ACM
+  SIGSOFT International Symposium on Foundations of Software Engineering}}
+  \emph{(\bibinfo{series}{FSE 2016})}. \bibinfo{publisher}{ACM},
+  \bibinfo{address}{New York, NY, USA}, \bibinfo{pages}{763--774}.
+\newblock
+\showISBNx{978-1-4503-4218-6}
+\urldef\tempurl%
+\url{https://doi.org/10.1145/2950290.2950315}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Omar, Voysey, Chugh, and Hammer}{Omar
+  et~al\mbox{.}}{2019}]%
+        {HazelnutLive}
+\bibfield{author}{\bibinfo{person}{Cyrus Omar}, \bibinfo{person}{Ian Voysey},
+  \bibinfo{person}{Ravi Chugh}, {and} \bibinfo{person}{Matthew~A. Hammer}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Live functional programming with typed holes}.
+\newblock \bibinfo{journal}{\emph{{PACMPL}}} \bibinfo{volume}{3},
+  \bibinfo{number}{{POPL}} (\bibinfo{year}{2019}),
+  \bibinfo{pages}{14:1--14:32}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3290327}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Omar, Voysey, Hilton, Aldrich, and
+  Hammer}{Omar et~al\mbox{.}}{2017}]%
+        {Hazelnut}
+\bibfield{author}{\bibinfo{person}{Cyrus Omar}, \bibinfo{person}{Ian Voysey},
+  \bibinfo{person}{Michael Hilton}, \bibinfo{person}{Jonathan Aldrich}, {and}
+  \bibinfo{person}{Matthew~A. Hammer}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Hazelnut: a bidirectionally typed structure editor
+  calculus}. In \bibinfo{booktitle}{\emph{Proceedings of the 44th {ACM}
+  {SIGPLAN} Symposium on Principles of Programming Languages, {POPL} 2017,
+  Paris, France, January 18-20, 2017}},
+  \bibfield{editor}{\bibinfo{person}{Giuseppe Castagna} {and}
+  \bibinfo{person}{Andrew~D. Gordon}} (Eds.). \bibinfo{publisher}{{ACM}},
+  \bibinfo{pages}{86--99}.
+\newblock
+\showISBNx{978-1-4503-4660-3}
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3009837}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Teitelbaum and Reps}{Teitelbaum and
+  Reps}{1981}]%
+        {Cornell}
+\bibfield{author}{\bibinfo{person}{Tim Teitelbaum} {and}
+  \bibinfo{person}{Thomas Reps}.} \bibinfo{year}{1981}\natexlab{}.
+\newblock \showarticletitle{The Cornell Program Synthesizer: A Syntax-directed
+  Programming Environment}.
+\newblock \bibinfo{journal}{\emph{Commun. ACM}} \bibinfo{volume}{24},
+  \bibinfo{number}{9} (\bibinfo{date}{Sept.} \bibinfo{year}{1981}),
+  \bibinfo{pages}{563--573}.
+\newblock
+\showISSN{0001-0782}
+\urldef\tempurl%
+\url{https://doi.org/10.1145/358746.358755}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Voelter, Szab\'{o}, Lisson, Kolb, Erdweg, and
+  Berger}{Voelter et~al\mbox{.}}{2016}]%
+        {GrammarCells}
+\bibfield{author}{\bibinfo{person}{Markus Voelter}, \bibinfo{person}{Tam\'{a}s
+  Szab\'{o}}, \bibinfo{person}{Sascha Lisson}, \bibinfo{person}{Bernd Kolb},
+  \bibinfo{person}{Sebastian Erdweg}, {and} \bibinfo{person}{Thorsten Berger}.}
+  \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Efficient Development of Consistent Projectional
+  Editors Using Grammar Cells}. In \bibinfo{booktitle}{\emph{Proceedings of the
+  2016 ACM SIGPLAN International Conference on Software Language Engineering}}
+  \emph{(\bibinfo{series}{SLE 2016})}. \bibinfo{publisher}{ACM},
+  \bibinfo{address}{New York, NY, USA}, \bibinfo{pages}{28--40}.
+\newblock
+\showISBNx{978-1-4503-4447-0}
+\urldef\tempurl%
+\url{https://doi.org/10.1145/2997364.2997365}
+\showDOI{\tempurl}
+
+
+\end{thebibliography}
