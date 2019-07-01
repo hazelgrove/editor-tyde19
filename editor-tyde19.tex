@@ -91,15 +91,20 @@ We designed \Hazel's structure
 	editor to maximize carryover of users' text-editing intuitions.
 We motivate four main features supporting \Hazel's ergonomics, then demonstrate them
 	in a concrete example.
+	
+\newcommand{\feat}[1]{{\bfseries (#1)}}
 
 \parahead{\emph{(1)} Automatic Hole Insertion}
 %\todo{maybe add something about how other structure editors do syntactic holes}
-Naïvely, enforcing an injunction on ill-typed edit states would force programmers to
+Naïvely enforcing an injunction on ill-typed edit states would force programmers to
 	construct programs in a rigid ``outside-in'' manner.
 \Hazel's type-aware edit actions address this issue by automatically enclosing unfinished
 	or type-inconsistent parts of the program in holes.
-By internalizing type inconsistencies into its semantics, \Hazel allows for natural
-	left-to-right construction of expressions while maintaining well-typedness.
+Together with Feature \feat{2}, \Hazel's semantic internalization of type inconsistencies 
+	enables natural left-to-right construction while maintaining well-typedness.
+%In combination with \feat{2}, \Hazel's semantic internalization of type inconsistencies
+%	allows for natural left-to-right program construction while maintaining
+%	well-typedness.
 
 \parahead{\emph{(2)} Tree Flattening}
 Text editors present character sequences in a 2D interface by dividing the
@@ -110,24 +115,33 @@ An expression in \Hazel is encoded as a sequence of non-terminal line items
 	(e.g., \texttt{let x = 1 in}) followed by a nonbinding terminal line item
 	(e.g., \texttt{x + 1}). 
 A terminal line item is encoded at the top level as an unassociated infix operator sequence.
-As we will see later, line items and operands serve as useful landmarks for complex
+This structure helps facilitate natural left-to-right program construction and free use of
+	vertical space.
+As we will see later, line items and operands also serve as useful landmarks for complex
 	node transformations.
 
 \parahead{\emph{(3)} Explicit Tree Signifiers}
-Early structure editors were hard to use because they presented a linear textual notation
-	but had editing interfaces requiring awareness of the underlying tree structure.
-Contemporary tools have significantly improved usability, but issues remain.
+%Early structure editors were hard to use because they presented a linear textual notation
+%	but had editing interfaces requiring awareness of the underlying tree structure.
+Contemporary structure editors have made significant strides in usability, but
+	issues remain.
+%They can be hard to use because they present a linear textual notation
+%	but have editing interfaces requiring awareness of the underlying tree structure.
 In a controlled user evaluation of MPS, a state-of-the-art structure editor,
 	Berger \emph{et al.}~ \cite{ProjEfficiency}
 	report that novice users perceive selection as inaccurate relative to that in text
 	editing, and that both novices \emph{and experts} perceive deletion as relatively inaccurate.
-These results suggest that there remain discrepancies between MPS's visual 
-	signifiers and editing affordances.
+The issue is that MPS presents a linear textual notation but often requires awareness of the 
+	underlying tree structure in order to predict edit results.
+%These results suggest that there remain discrepancies between MPS's visual 
+%	signifiers and editing affordances.
 
 To address this problem, \Hazel features a novel cursor system that augments the familiar
 	cursor of text editors with visual markers of the current node's tree structure.
-These markers facilitate understanding of the program's tree structure and indicate
+These markers facilitate understanding of the program's tree structure as well as indicate
 	which node would be removed by deletion.
+At the same time, they require no additional screen real estate, a known issue with
+	blocks-based interfaces \cite{BlocksFingertips}.
 
 \parahead{\emph{(4)} Node Staging Mode}
 Prior work on structure editing ergonomics has proposed a variety of solutions to 
@@ -143,8 +157,6 @@ Whereas other structure editors require a ``configure then invoke'' flow, where 
 	that of text editing.
 
 \subsection{Example}
-
-\newcommand{\feat}[1]{{\bfseries (#1)}}
 
 We now give an example-driven overview of these features.
 
@@ -175,17 +187,24 @@ Suppose we have so far implemented \texttt{damage} as follows.
 }
 \noindent
 %\begin{tabular}{|p{\linewidth}}
-We press keys \key{+} and \key{1}.
+We press keys \key{+} \ldots
 %\end{tabular}
+
+{\centering
+  \includegraphics[width=\linewidth]{fig/frame1-5.png}\par
+}
+\noindent
+\ldots and \key{1}.
 
 {\centering
   \includegraphics[width=\linewidth]{fig/frame2.png}\par
 }
 \noindent
-A naïve structure editor design would maintain a strict tree structure and apply
-	edit commands as context-free transformations. \Hazel avoids this issue via
-	Feature \feat{2}, while \Hazel's edit actions re-parse operator precedence as
-	needed for typchecking. This approach is similar to MPS's side transformations \cite{GrammarCells}.
+A naïve structure editor design would apply edit commands as context-free transformations,
+	leading to the unintended result \texttt{2 * (crit + 1)}.
+\Hazel avoids this issue via Features \feat{1} and \feat{2}, while \Hazel's edit actions
+	re-parse operator precedence as needed for typechecking. 
+This approach is similar to MPS's side transformations \cite{GrammarCells}.
 
 {\centering
 	\vspace{-0.1cm}
@@ -255,7 +274,7 @@ The \texttt{in} delimiter is highlighted in dark green to indicate that it is
 	the delimiter to be placed, while the dark green guide on the left signifies
 	possible positions.
 The two children nodes of the let line are highlighted to indicate that, if
-	we were press \key{Backspace} again, they would be deleted as well.
+	we were to press \key{Backspace} again, they would be deleted as well.
 
 We press \key{$\rightarrow$} or \key{$\downarrow$} to move \texttt{in} to the next position.
 
