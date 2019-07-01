@@ -1,7 +1,7 @@
 \documentclass[format=sigplan,dvipsnames,backend=bibtex]{acmart}
 
 %%% Top Matter %%%
-\title{Extended Abstract: Flexible Structure Editing of Well-Typed Expressions}
+\title{Flexible Structure Editing of Well-Typed Expressions (Extended Abstract)}
 
 \author{David Moon}
 \affiliation{University of Colorado Boulder}
@@ -65,9 +65,9 @@
 \section{Introduction}
 
 Structure editors allow the programmer to edit the tree structure of a program directly.
-This promises to bring cognitive benefits for novice programmers, simplify language composition,
+They can provide cognitive benefits for novice programmers, simplify language composition,
   and improve the availability of editor services.
-However, structure editors are also known for being difficult to use.
+They are also known for being difficult to use.
 
 We present the structure editor design of \Hazel, a live functional programming environment.
 	\Hazel's type-aware edit actions enforce the invariant that every program edit state is not only syntactically 
@@ -110,11 +110,12 @@ Text editors present character sequences in a 2D interface by dividing the
 	sequence into rows.
 \Hazel's syntax directly encodes the vertical and horizontal linearity of text
 	editing to which computer users are accustomed.
-An expression in \Hazel is encoded as a sequence of non-terminal line items
-	(e.g., \texttt{let x = 1 in}) followed by a nonbinding terminal line item
-	(e.g., \texttt{x + 1}). 
-A terminal line item is encoded at the top level as an infix operator sequence that is 
-re-associated according to the usual operator precedence rules on each edit. 
+An expression in \Hazel is encoded as a sequence of leading line items, which may
+	introduce bindings (e.g., \texttt{let x = 1 in}), followed by a concluding line
+	item (e.g., \texttt{x + 1}).
+A concluding line item is encoded as an unassociated infix operator sequence---\Hazel 
+	internally re-associates operator sequences as needed for typechecking, but the
+	association does not affect how the user navigates and edits the sequence.
 This structure helps facilitate natural left-to-right program editing and free use of
 	vertical space.
 As we will see below, line items and operators also serve as useful landmarks for staged
@@ -200,11 +201,12 @@ We press keys \key{+} \ldots
   \includegraphics[width=\linewidth]{fig/frame2.png}\par
 }
 \noindent
-A naïve structure editor design would apply edit commands as context-free transformations,
-	leading to the unintended result \texttt{2 * (crit + 1)}.
+A naïve structure editor design would apply edits as context-free transformations,
+	leading to the result \texttt{2*(crit+1)}.
 \Hazel avoids this issue via Features \feat{1} and \feat{2}, while \Hazel's edit actions
-	re-parse operator precedence as needed for typechecking. 
+	re-parse operator precedence as needed for typechecking.
 This approach is similar to MPS's side transformations \cite{GrammarCells}.
+We defer to \cite{Hazelnut} for more examples of hole insertion.
 
 {\centering
 	\vspace{-0.1cm}
@@ -223,7 +225,7 @@ Our plan is to bind the current expression to a new variable \texttt{attackScore
 \noindent
 %\begin{tabular}{|p{\linewidth}}
 We have moved the cursor to the start of the \texttt{case} expression.
-Note that the dark green caret is augmented with a light green shading of the
+Note that the dark green cursor is augmented with a light green shading of the
 	the \texttt{case} node and outlines of its child nodes [Feature \feat{3}].
 	
 We press \key{Enter} to create a new empty line.
@@ -258,7 +260,7 @@ By recognizing keywords that prefix syntactic forms, \Hazel eliminates the requi
 }
 \noindent
 Now that we have created \texttt{attackScore}, we want to bind it
-	to the \texttt{case} expression on the following line.
+	to the subsequent \texttt{case} expression.
 In a text editor, we would delete the delimiter \texttt{in} and retype it after
 	the \texttt{case} expression. Similarly, we hit \key{Backspace}.
 
