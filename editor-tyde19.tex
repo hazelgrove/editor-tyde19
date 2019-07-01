@@ -64,18 +64,17 @@
 
 \section{Introduction}
 
-Structure editors allow programmers to edit the tree structure of a program directly.
-They can provide cognitive benefits for novice programmers, simplify language composition,
+Structure editors allow the programmer to edit the tree structure of a program directly.
+This promises to bring cognitive benefits for novice programmers, simplify language composition,
   and improve the availability of editor services.
-They are also known for being hard to use.
+However, structure editors are also known for being difficult to use.
 
 We present the structure editor design of \Hazel, a live functional programming environment.
-By virtue of its type-aware edit actions and execution semantics for incomplete programs, 
-	\Hazel enforces the invariant that every program edit state is not only syntactically 
+	\Hazel's type-aware edit actions enforce the invariant that every program edit state is not only syntactically 
 	well-formed, but also statically \cite{Hazelnut} and dynamically \cite{HazelnutLive}
 	well-defined.
-Central to these guarantees is automatic insertion of \emph{typed holes} to enclose
-	incomplete and type-inconsistent parts of the program.
+Central to these guarantees is automatic insertion of \emph{typed holes} at and around 
+	incomplete and type-incorrect portions of the program.
 	
 Prior structure editors have attempted to improve usability by allowing tightly scoped 
 	violations of syntactic well-formedness.
@@ -88,7 +87,7 @@ We present our attempt at designing an ergonomic structure editor under this con
 \section{Structure Editor Design}
 
 We designed \Hazel's structure
-	editor to maximize carryover of users' text-editing intuitions.
+	editor to maximize carryover of users' text editing intuitions.
 We motivate four main features supporting \Hazel's ergonomics, then demonstrate them
 	in a concrete example.
 	
@@ -100,13 +99,13 @@ Naïvely enforcing an injunction on ill-typed edit states would force programmer
 	construct programs in a rigid ``outside-in'' manner.
 \Hazel's type-aware edit actions address this issue by automatically enclosing unfinished
 	or type-inconsistent parts of the program in holes.
-Together with Feature \feat{2}, \Hazel's semantic internalization of type inconsistencies 
-	enables natural left-to-right construction while maintaining well-typedness.
+% Together with Feature \feat{2}, \Hazel's semantic internalization of type inconsistencies 
+	% enables natural left-to-right construction while maintaining well-typedness.
 %In combination with \feat{2}, \Hazel's semantic internalization of type inconsistencies
 %	allows for natural left-to-right program construction while maintaining
 %	well-typedness.
 
-\parahead{\emph{(2)} Tree Flattening}
+\parahead{\emph{(2)} Tree Linearization}
 Text editors present character sequences in a 2D interface by dividing the
 	sequence into rows.
 \Hazel's syntax directly encodes the vertical and horizontal linearity of text
@@ -114,10 +113,11 @@ Text editors present character sequences in a 2D interface by dividing the
 An expression in \Hazel is encoded as a sequence of non-terminal line items
 	(e.g., \texttt{let x = 1 in}) followed by a nonbinding terminal line item
 	(e.g., \texttt{x + 1}). 
-A terminal line item is encoded at the top level as an unassociated infix operator sequence.
-This structure helps facilitate natural left-to-right program construction and free use of
+A terminal line item is encoded at the top level as an infix operator sequence that is 
+re-associated according to the usual operator precedence rules on each edit. 
+This structure helps facilitate natural left-to-right program editing and free use of
 	vertical space.
-As we will see later, line items and operands also serve as useful landmarks for complex
+As we will see below, line items and operators also serve as useful landmarks for staged
 	node transformations.
 
 \parahead{\emph{(3)} Explicit Tree Signifiers}
@@ -147,7 +147,7 @@ At the same time, they require no additional screen real estate, a known issue w
 Prior work on structure editing ergonomics has proposed a variety of solutions to 
 	constructing infix operator sequences in the manner of text editing, i.e., with similar 
 	keystrokes.
-There has been no similar attention paid to complex tree transformations involving other 
+There has been comparatively little attention paid to complex tree transformations involving other 
 	syntactic forms.
 \Hazel features a novel \emph{node staging mode} that faciliates exploration of valid
 	node transformations.
