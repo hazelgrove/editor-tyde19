@@ -69,23 +69,21 @@ They can provide cognitive benefits for novice programmers, simplify language co
   and improve the availability of editor services.
 They are also known for being hard to use.
 
-We present the structure editor design of \Hazel, a live functional programming language
-	and editor.
+We present the structure editor design of \Hazel, a live functional programming environment.
 By virtue of its type-aware edit actions and execution semantics for incomplete programs, 
-	\Hazel enforces the unique invariant that every program edit state is not only syntactically 
-	well-formed, but also statically \cite{Hazelnut} and dynamically \cite{HazelnutLive} well-defined.
-Central to these guarantees is the use of \emph{typed holes} to enclose incomplete and
-	type-inconsistent parts of the program.
-
-Prior structure editors have attempted to improve usability by allowing tightly scoped
-	violations of structural invariants.
-For example, the Cornell Program Synthesizer enforces high-level tree structure but allows
-	the programmer to construct expressions and assignment statements via text editing \cite{Cornell}.
-\Hazel takes a different approach: it loosens its structural invariants by formally
-	modeling incomplete programs.
-While this helps in some ways with designing for usability, \Hazel's semantic guarantees
-	require strict adherence to these invariants at all times.
-We present our attempt at designing an ergonomic structure editor under these constraints.
+	\Hazel enforces the invariant that every program edit state is not only syntactically 
+	well-formed, but also statically \cite{Hazelnut} and dynamically \cite{HazelnutLive}
+	well-defined.
+Central to these guarantees is automatic insertion of \emph{typed holes} to enclose
+	incomplete and type-inconsistent parts of the program.
+	
+Prior structure editors have attempted to improve usability by allowing tightly scoped 
+	violations of syntactic well-formedness.
+For example, the Cornell Program Synthesizer enforces high-level tree structure but
+	allows the user to construct expressions and bindings via text editing \cite{Cornell}.
+We do not have the same leniency if we are to uphold \Hazel's robust semantic
+	guarantees---every edit state must be a well-formed, well-typed expression.
+We present our attempt at designing an ergonomic structure editor under this constraint.
 	
 \section{Structure Editor Design}
 
@@ -98,41 +96,43 @@ We motivate four main features supporting \Hazel's ergonomics, then demonstrate 
 %\todo{maybe add something about how other structure editors do syntactic holes}
 Naïvely, enforcing an injunction on ill-typed edit states would force programmers to
 	construct programs in a rigid ``outside-in'' manner.
-\Hazel addresses this problem by automatically enclosing unfinished or type-inconsistent
-	parts of the program in holes.
+\Hazel's type-aware edit actions address this issue by automatically enclosing unfinished
+	or type-inconsistent parts of the program in holes.
 By internalizing type inconsistencies into its semantics, \Hazel allows for natural
-	left-to-right construction of programs while maintaining well-typedness.
+	left-to-right construction of expressions while maintaining well-typedness.
 
 \parahead{\emph{(2)} Tree Flattening}
-While plain text is a linear sequence of characters, text editors present it in a
-	two-dimensional interface by dividing the sequence into rows.
-\Hazel's syntax explicitly encodes the vertical and horizontal linearity of text
+Text editors present character sequences in a 2D interface by dividing the
+	sequence into rows.
+\Hazel's syntax directly encodes the vertical and horizontal linearity of text
 	editing to which computer users are accustomed.
-Expressions in \Hazel are broken up into sequences of line items; 
-	within each line item, sequences of infix operators are encoded sequentially.
+An expression in \Hazel is encoded as a sequence of non-terminal line items
+	(e.g., \texttt{let x = 1 in}) followed by a nonbinding terminal line item
+	(e.g., \texttt{x + 1}). 
+A terminal line item is encoded at the top level as an unassociated infix operator sequence.
 As we will see later, line items and operands serve as useful landmarks for complex
 	node transformations.
 
 \parahead{\emph{(3)} Explicit Tree Signifiers}
-Early structure editors were hard to use because they presented a textual notation
+Early structure editors were hard to use because they presented a linear textual notation
 	but had editing interfaces requiring awareness of the underlying tree structure.
-Comtemporary tools have significantly improved usability, but issues remain.
+Contemporary tools have significantly improved usability, but issues remain.
 In a controlled user evaluation of MPS, a state-of-the-art structure editor,
 	Berger \emph{et al.}~ \cite{ProjEfficiency}
 	report that novice users perceive selection as inaccurate relative to that in text
 	editing, and that both novices \emph{and experts} perceive deletion as relatively inaccurate.
-These results suggest that there remain discrepancies between the visual signifiers and
-	editing affordances.
+These results suggest that there remain discrepancies between MPS's visual 
+	signifiers and editing affordances.
 
 To address this problem, \Hazel features a novel cursor system that augments the familiar
 	cursor of text editors with visual markers of the current node's tree structure.
-Not only do these markers faciliate understanding of the program's tree structure,
-	but they also clearly indicate what would be removed by deletion.
+These markers facilitate understanding of the program's tree structure and indicate
+	which node would be removed by deletion.
 
 \parahead{\emph{(4)} Node Staging Mode}
 Prior work on structure editing ergonomics has proposed a variety of solutions to 
-	constructing infix operator sequences in the manner of text editing, i.e., with the
-	same keystrokes.
+	constructing infix operator sequences in the manner of text editing, i.e., with similar 
+	keystrokes.
 There has been no similar attention paid to complex tree transformations involving other 
 	syntactic forms.
 \Hazel features a novel \emph{node staging mode} that faciliates exploration of valid
@@ -146,8 +146,10 @@ Whereas other structure editors require a ``configure then invoke'' flow, where 
 
 \newcommand{\feat}[1]{{\bfseries (#1)}}
 
-We now present an example-driven overview of features \feat{2}, \feat{3},
-	and \feat{4}, deferring to \cite{Hazelnut} for examples of \feat{1}.
+We now give an example-driven overview of these features.
+
+% \feat{2}, \feat{3},
+%	and \feat{4}, deferring to \cite{Hazelnut} for examples of \feat{1}.
 
 Suppose we are implementing a combat game and, specifically, defining a function
 	\texttt{damage : Attack -> Num}. An \texttt{Attack} is a tuple consisting of the
@@ -158,7 +160,7 @@ Suppose we are implementing a combat game and, specifically, defining a function
   \includegraphics[width=\linewidth]{fig/context.png}\par
 }
 \noindent
-To save space, we do not repeat the above and focus our listings on the body of the \texttt{damage} function.
+All following listings should be interpreted as filling the body of the \texttt{damage} function.
 
 {\centering
 	\vspace{-0.1cm}
@@ -202,11 +204,11 @@ Our plan is to bind the current expression to a new variable \texttt{attackScore
 \noindent
 %\begin{tabular}{|p{\linewidth}}
 We have moved the cursor to the start of the \texttt{case} expression.
-Note that the dark green text cursor is augmented with a light green shading of the
+Note that the dark green caret is augmented with a light green shading of the
 	the \texttt{case} node and outlines of its child nodes [Feature \feat{3}].
 	
 We press \key{Enter} to create a new empty line.
-Explicit encoding of line items allows us to create space around existing nodes
+Direct encoding of line items allows us to create space around existing nodes
 	in preparation for a complex node construction, just like in a text editor.
 %\end{tabular}
 
@@ -236,7 +238,7 @@ By recognizing keywords that prefix syntactic forms, \Hazel eliminates the requi
   \includegraphics[width=\linewidth]{fig/frame6.png}\par
 }
 \noindent
-Now that we have created the variable \texttt{attackScore}, we want to bind it
+Now that we have created \texttt{attackScore}, we want to bind it
 	to the \texttt{case} expression on the following line.
 In a text editor, we would delete the delimiter \texttt{in} and retype it after
 	the \texttt{case} expression. Similarly, we hit \key{Backspace}.
@@ -255,7 +257,7 @@ The \texttt{in} delimiter is highlighted in dark green to indicate that it is
 The two children nodes of the let line are highlighted to indicate that, if
 	we were press \key{Backspace} again, they would be deleted as well.
 
-We press \key{$\rightarrow$} or \key{$\downarrow$} to move the delimiter to the next position.
+We press \key{$\rightarrow$} or \key{$\downarrow$} to move \texttt{in} to the next position.
 
 {\centering
   \includegraphics[width=\linewidth]{fig/frame8.png}\par
